@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/{name}',function(){
     return redirect('/');
 })->where('name','[A-Za-z]+');
+
+Route::resource('/product','ProductController');
+
+Route::post('/getproducts','ProductController@getproducts');
