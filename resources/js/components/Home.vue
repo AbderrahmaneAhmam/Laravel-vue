@@ -22,12 +22,12 @@
             </div>
             <div class="column is-1">
                 <span class="panel-icon">
-                <i class="has-text-danger fa fa-trash" aria-hidden="true"></i>                
+                <i class="has-text-danger fa fa-trash" aria-hidden="true" @click='delete_product(key,product.id)'></i>                
             </span>            
             </div>  
             <div class="column is-1">
                 <span class="panel-icon">
-                <i class="fa fa-edit" aria-hidden="true"></i>                
+                <i class="fa fa-edit" aria-hidden="true" @click="edit_product(key)"></i>                
             </span>            
             </div>  
             <div class="column is-1">
@@ -38,36 +38,49 @@
         </a>
         <Add :openmodal='addActive' @closeRequest='close'></Add>
         <Show :openmodal='showActive' @closeRequest='close'></Show>
+        <Edit :openmodal='editActive' @closeRequest='close'></Edit>
     </article>
 </template>
 <script>
 let Add = require('./Add.vue').default;
 let Show = require('./Show.vue').default;
+let Edit = require('./Edit.vue').default;
 export default {
-    components:{Add,Show},
+    components:{Add,Show,Edit},
     data(){
         return{
             addActive : '',
             showActive:'',
+            editActive:'',
             listproducts:{}
         }
     },
-    created(){
-        // console.log('Great')
+    created(){        
         axios.post('/getproducts')
         .then((response)=>this.listproducts=response.data)
         .catch((error) => this.errors=error.response.data.errors)
     },
     methods:{
         show_add(){
-            this.addActive='is-active'; 
+            this.addActive='is-active';
         },
         close(){
-            this.addActive=this.showActive='close';
+            this.addActive=this.showActive=this.editActive='close';
         },
         show_product(key){
-            this.$children[1].listproducts=this.listproducts[key];
-            this.showActive='is-active';            
+            this.$children[1].product=this.listproducts[key];
+            this.showActive='is-active';
+        },
+        edit_product(key){
+            this.$children[2].product=this.listproducts[key];
+            this.editActive='is-active';
+        },
+        delete_product(key,id){
+            if(confirm('Are you sure?')){
+                axios.delete('/product/'.concat(id))
+                .then(this.listproducts.splice(key,1))
+                .catch();
+            }
         }
     }
 }

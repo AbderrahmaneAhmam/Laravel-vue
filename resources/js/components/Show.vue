@@ -10,21 +10,21 @@
                 <div class="field">
                     <label class="label">Name</label>
                     <div class="control">
-                        <p>{{listproducts.name}}</p>
+                        <p>{{product.name}}</p>
                     </div>                    
                 </div>
 
                 <div class="field">
                     <label class="label">Price</label>
                     <div class="control"> 
-                        <p>{{listproducts.price}}</p>                       
+                        <p>{{product.price}}</p>                       
                     </div>                    
                 </div>
 
                 <div class="field">
                     <label class="label">Description</label>
                     <div class="control"> 
-                        <p>{{listproducts.description}}</p>                       
+                        <p>{{product.description}}</p>                       
                     </div>                    
                 </div>
             </section>
@@ -40,7 +40,7 @@
         props: ['openmodal'],
         data() {
             return{
-                listproducts:''
+                product:''
             }
         },
         methods: {
